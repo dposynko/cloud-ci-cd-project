@@ -1,1 +1,33 @@
+name: CI/CD Pipeline
 
+on:
+ push:
+  branches:
+   - main
+
+
+jobs:
+ build:
+  runs-on: ubuntu-latest
+
+  steps:
+   - name: Chechout Code
+     uses: actions/chechout@v3
+
+   - name: Set up Python
+     uses: actions/setup-python@v4
+     with:
+       python-version: 3.9
+
+   - name: Run Tests (basic)
+     run: |
+      echo "No tests yet, but pipeline works!"
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy Step
+        run: |
+          echo "Simulated deployment"

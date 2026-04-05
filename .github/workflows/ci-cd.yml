@@ -82,3 +82,5 @@ jobs:
           script: |
             set -euo pipefail
             echo "Connected"
+            hostname
+            whoami

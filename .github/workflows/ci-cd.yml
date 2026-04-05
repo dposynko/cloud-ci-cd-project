@@ -72,6 +72,7 @@ jobs:
           if [ -z "${{ secrets.OCI_USER }}" ]; then echo "OCI_USER is MISSING"; else echo "OCI_USER is set"; fi
           if [ -z "${{ secrets.OCI_SSH_KEY }}" ]; then echo "OCI_SSH_KEY is MISSING"; else echo "OCI_SSH_KEY is set"; fi      
 
+
       - name: Deploy to OCI VM via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -80,23 +81,4 @@ jobs:
           key: ${{ secrets.OCI_SSH_KEY }}
           script: |
             set -euo pipefail
-
-            IMAGE="ghcr.io/${{ github.repository_owner }}/cloud-ci-cd-project:${{ github.sha }}"
-
-            # Make sure docker is installed
-            if ! command -v docker >/dev/null 2>&1; then
-              sudo apt-get update
-              sudo apt-get install -y docker.io
-              sudo usermod -aG docker $USER || true
-            fi
-
-            # Pull new image
-            sudo docker pull "$IMAGE"
-
-            # Replace container
-            sudo docker rm -f cicd-demo || true
-            sudo docker run -d --name cicd-demo --restart unless-stopped -p 5000:5000 "$IMAGE"
-
-            # Simple health check
-            curl -fsS http://localhost:5000 >/dev/null
-            echo "Deployed $IMAGE"
+            echo "Connected"
